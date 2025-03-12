@@ -1,0 +1,609 @@
+<!-- Tiamoyo Project 👍i Widget with Project Details -->
+<!-- Copy this entire code block to implement the widget on your site -->
+
+<style>
+    /* Widget Container */
+    #tiamoyo-widget {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+    }
+
+    /* Main Button */
+    #tiamoyo-button {
+        width: 60px;
+        height: 60px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        cursor: pointer;
+        position: relative;
+        transition: transform 0.2s ease;
+    }
+
+    #tiamoyo-button:hover {
+        transform: scale(1.05);
+    }
+
+    /* "i" Badge */
+    #i-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 24px;
+        height: 24px;
+        background: #0077b6;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-style: italic;
+        font-weight: bold;
+    }
+
+    /* Popup Container - Common Styles */
+    .tiamoyo-popup {
+        position: absolute;
+        bottom: 75px;
+        right: 0;
+        background: white;
+        width: 300px;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Popup Header - Common Styles */
+    .popup-header {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .popup-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #0077b6;
+        margin-bottom: 5px;
+    }
+
+    .popup-subtitle {
+        font-size: 14px;
+        color: #555;
+    }
+
+    /* Project Options */
+    .project-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .project-option {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .project-option:hover {
+        background: #e9ecef;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .option-icon {
+        font-size: 24px;
+        margin-right: 12px;
+    }
+
+    .option-details {
+        flex-grow: 1;
+    }
+
+    .option-title {
+        font-weight: 600;
+        font-size: 15px;
+        color: #333;
+    }
+
+    .option-desc {
+        font-size: 12px;
+        color: #666;
+        margin-top: 2px;
+    }
+
+    /* Project Details Popup */
+    .project-icon-large {
+        font-size: 48px;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .project-description {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .project-impact {
+        background: #f0f7ff;
+        border: 1px solid #d0e3ff;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .impact-title {
+        font-weight: bold;
+        color: #0077b6;
+        margin-bottom: 8px;
+        font-size: 15px;
+    }
+
+    .impact-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .impact-list li {
+        padding-left: 20px;
+        position: relative;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .impact-list li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #0077b6;
+    }
+
+    .donate-button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 0;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+        transition: background-color 0.2s;
+        margin-bottom: 15px;
+    }
+
+    .donate-button:hover {
+        background-color: #43a047;
+    }
+
+    .visual-element {
+        margin-bottom: 20px;
+    }
+
+    /* Progress visualization for well */
+    .well-progress {
+        height: 150px;
+        width: 60px;
+        background-color: #f1f1f1;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .well-water {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 35%;
+        background-color: #48cae4;
+    }
+
+    .well-depth-marker {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        text-align: right;
+        font-size: 10px;
+        color: #666;
+    }
+
+    .well-depth-0 {
+        top: 2px;
+    }
+
+    .well-depth-50 {
+        top: 50%;
+    }
+
+    .well-depth-100 {
+        bottom: 2px;
+    }
+
+    /* Tractor visualization */
+    .tractor-container {
+        text-align: center;
+    }
+
+    .tractor-icon {
+        font-size: 40px;
+    }
+
+    .fuel-gauge {
+        height: 12px;
+        background-color: #f1f1f1;
+        border-radius: 6px;
+        margin: 10px auto;
+        width: 80%;
+        overflow: hidden;
+    }
+
+    .fuel-level {
+        height: 100%;
+        width: 40%;
+        background-color: #f39c12;
+    }
+
+    /* Training visualization */
+    .farmers-row {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .farmer-icon {
+        font-size: 24px;
+    }
+
+    /* Support visualization */
+    .support-heart {
+        font-size: 40px;
+        color: #e74c3c;
+        text-align: center;
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+
+    /* Navigation Buttons */
+    .popup-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .back-button, .close-button {
+        color: #0077b6;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    .back-button:hover, .close-button:hover {
+        text-decoration: underline;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 480px) {
+        #tiamoyo-button {
+            width: 50px;
+            height: 50px;
+            font-size: 28px;
+        }
+
+        #i-badge {
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
+        }
+
+        .tiamoyo-popup {
+            width: 280px;
+            padding: 15px;
+        }
+    }
+</style>
+
+<div id="tiamoyo-widget">
+    <div id="tiamoyo-button" onclick="toggleTiamoyoPopup()">
+        👍
+        <div id="i-badge">i</div>
+    </div>
+    
+    <!-- Initial Projects Selection Popup -->
+    <div id="projects-popup" class="tiamoyo-popup">
+        <div class="popup-header">
+            <div class="popup-title">Tiamoyo Project</div>
+            <div class="popup-subtitle">Your $5 makes a difference!</div>
+        </div>
+        
+        <div class="project-options">
+            <div class="project-option" onclick="showProjectDetails('well')">
+                <span class="option-icon">💧</span>
+                <div class="option-details">
+                    <div class="option-title">Dig the Well</div>
+                    <div class="option-desc">$5 funds 1 inch of well drilling</div>
+                </div>
+            </div>
+            
+            <div class="project-option" onclick="showProjectDetails('tractor')">
+                <span class="option-icon">🚜</span>
+                <div class="option-details">
+                    <div class="option-title">Fuel the Tractors</div>
+                    <div class="option-desc">$5 powers 1 hour of tractor operation</div>
+                </div>
+            </div>
+            
+            <div class="project-option" onclick="showProjectDetails('training')">
+                <span class="option-icon">👨‍🌾</span>
+                <div class="option-details">
+                    <div class="option-title">Train Farmers</div>
+                    <div class="option-desc">$5 contributes to training sessions</div>
+                </div>
+            </div>
+            
+            <div class="project-option" onclick="showProjectDetails('support')">
+                <span class="option-icon">🙏</span>
+                <div class="option-details">
+                    <div class="option-title">General Support</div>
+                    <div class="option-desc">$5 helps our mission in Tanzania</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="popup-footer">
+            <div></div> <!-- Empty div for spacing -->
+            <span class="close-button" onclick="closeTiamoyoPopup()">Close</span>
+        </div>
+    </div>
+    
+    <!-- Well Project Details Popup -->
+    <div id="well-details" class="tiamoyo-popup">
+        <div class="popup-header">
+            <div class="project-icon-large">💧</div>
+            <div class="popup-title">Dig the Well</div>
+            <div class="popup-subtitle">Help us reach water 60 feet below</div>
+        </div>
+        
+        <div class="project-description">
+            We need to dig a well on the Agape farm to provide sustainable water access for irrigation and community use. Water is available 60 feet (720 inches) below ground.
+        </div>
+        
+        <div class="visual-element">
+            <div class="well-progress">
+                <div class="well-water"></div>
+                <div class="well-depth-marker well-depth-0">0"</div>
+                <div class="well-depth-marker well-depth-50">360"</div>
+                <div class="well-depth-marker well-depth-100">720"</div>
+            </div>
+        </div>
+        
+        <div class="project-impact">
+            <div class="impact-title">Your donation impact:</div>
+            <ul class="impact-list">
+                <li>$5 funds 1 inch of well drilling</li>
+                <li>$15 funds 3 inches of progress</li>
+                <li>Currently at 35% of our $5,000 goal</li>
+                <li>Helps mitigate against drought</li>
+            </ul>
+        </div>
+        
+        <button class="donate-button" onclick="goToCampaign('well')">Donate $5 to Dig 1 Inch</button>
+        
+        <div class="popup-footer">
+            <span class="back-button" onclick="backToProjects()">← Back</span>
+            <span class="close-button" onclick="closeTiamoyoPopup()">Close</span>
+        </div>
+    </div>
+    
+    <!-- Tractor Project Details Popup -->
+    <div id="tractor-details" class="tiamoyo-popup">
+        <div class="popup-header">
+            <div class="project-icon-large">🚜</div>
+            <div class="popup-title">Fuel the Tractors</div>
+            <div class="popup-subtitle">Keep our equipment running</div>
+        </div>
+        
+        <div class="project-description">
+            Our tractors are crucial for preparing farmland for local families. We recently shipped two tractors to Tanzania that need fuel and maintenance to operate effectively for the community.
+        </div>
+        
+        <div class="visual-element">
+            <div class="tractor-container">
+                <div class="tractor-icon">🚜</div>
+                <div class="fuel-gauge">
+                    <div class="fuel-level"></div>
+                </div>
+                <div style="font-size: 12px; color: #666;">40% of monthly fuel needs funded</div>
+            </div>
+        </div>
+        
+        <div class="project-impact">
+            <div class="impact-title">Your donation impact:</div>
+            <ul class="impact-list">
+                <li>$5 powers 1 hour of tractor operation</li>
+                <li>$15 funds 3 hours of field preparation</li>
+                <li>Helps prepare land for planting crops</li>
+                <li>Supports agricultural development</li>
+            </ul>
+        </div>
+        
+        <button class="donate-button" onclick="goToCampaign('tractor')">Donate $5 for 1 Hour of Operation</button>
+        
+        <div class="popup-footer">
+            <span class="back-button" onclick="backToProjects()">← Back</span>
+            <span class="close-button" onclick="closeTiamoyoPopup()">Close</span>
+        </div>
+    </div>
+    
+    <!-- Training Project Details Popup -->
+    <div id="training-details" class="tiamoyo-popup">
+        <div class="popup-header">
+            <div class="project-icon-large">👨‍🌾</div>
+            <div class="popup-title">Train Farmers</div>
+            <div class="popup-subtitle">Teaching sustainable agriculture</div>
+        </div>
+        
+        <div class="project-description">
+            We provide training in conservation agriculture techniques to local farmers, helping them increase crop yields while preserving natural resources for future generations.
+        </div>
+        
+        <div class="visual-element">
+            <div class="farmers-row">
+                <div class="farmer-icon">👨‍🌾</div>
+                <div class="farmer-icon">👩‍🌾</div>
+                <div class="farmer-icon">👨‍🌾</div>
+            </div>
+            <div class="farmers-row">
+                <div class="farmer-icon">👩‍🌾</div>
+                <div class="farmer-icon">👨‍🌾</div>
+                <div class="farmer-icon">👩‍🌾</div>
+            </div>
+            <div style="text-align: center; font-size: 12px; color: #666;">68 farmers trained so far</div>
+        </div>
+        
+        <div class="project-impact">
+            <div class="impact-title">Your donation impact:</div>
+            <ul class="impact-list">
+                <li>$5 contributes to one training session</li>
+                <li>$15 helps train multiple farmers</li>
+                <li>Improves food security for families</li>
+                <li>Promotes sustainable farming practices</li>
+            </ul>
+        </div>
+        
+        <button class="donate-button" onclick="goToCampaign('training')">Donate $5 to Support Training</button>
+        
+        <div class="popup-footer">
+            <span class="back-button" onclick="backToProjects()">← Back</span>
+            <span class="close-button" onclick="closeTiamoyoPopup()">Close</span>
+        </div>
+    </div>
+    
+    <!-- Support Project Details Popup -->
+    <div id="support-details" class="tiamoyo-popup">
+        <div class="popup-header">
+            <div class="project-icon-large">🙏</div>
+            <div class="popup-title">General Support</div>
+            <div class="popup-subtitle">Help where needed most</div>
+        </div>
+        
+        <div class="project-description">
+            Your general support allows us to direct funds to the most urgent needs across all our projects in Tanzania, ensuring we can respond quickly to changing priorities.
+        </div>
+        
+        <div class="visual-element">
+            <div class="support-heart">❤️</div>
+            <div style="text-align: center; font-size: 12px; color: #666;">Supporting communities since 2019</div>
+        </div>
+        
+        <div class="project-impact">
+            <div class="impact-title">Your donation impact:</div>
+            <ul class="impact-list">
+                <li>$5 supports our mission in Tanzania</li>
+                <li>Helps us respond to urgent needs</li>
+                <li>Funds administrative operations</li>
+                <li>Enables long-term planning</li>
+            </ul>
+        </div>
+        
+        <button class="donate-button" onclick="goToCampaign('support')">Donate $5 for General Support</button>
+        
+        <div class="popup-footer">
+            <span class="back-button" onclick="backToProjects()">← Back</span>
+            <span class="close-button" onclick="closeTiamoyoPopup()">Close</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Toggle main popup visibility
+    function toggleTiamoyoPopup() {
+        closeTiamoyoPopup(); // Close any open popups first
+        document.getElementById('projects-popup').style.display = 'block';
+    }
+    
+    // Close all popups
+    function closeTiamoyoPopup() {
+        const popups = document.querySelectorAll('.tiamoyo-popup');
+        popups.forEach(popup => {
+            popup.style.display = 'none';
+        });
+    }
+    
+    // Show project details
+    function showProjectDetails(projectType) {
+        closeTiamoyoPopup(); // Close all popups first
+        document.getElementById(`${projectType}-details`).style.display = 'block';
+    }
+    
+    // Go back to projects list
+    function backToProjects() {
+        closeTiamoyoPopup(); // Close all popups first
+        document.getElementById('projects-popup').style.display = 'block';
+    }
+    
+    // Go to GoFundMe campaign
+    function goToCampaign(projectType) {
+        // Replace these URLs with your actual GoFundMe campaign links
+        const campaignURLs = {
+            'well': 'https://gofund.me/your-well-campaign',
+            'tractor': 'https://gofund.me/your-tractor-campaign',
+            'training': 'https://gofund.me/your-training-campaign',
+            'support': 'https://gofund.me/your-general-support-campaign'
+        };
+        
+        // Open campaign in new tab
+        window.open(campaignURLs[projectType], '_blank');
+        
+        // Track click for analytics (optional)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'campaign_click', {
+                'campaign_type': projectType
+            });
+        }
+        
+        // Close popup after redirect
+        closeTiamoyoPopup();
+    }
+    
+    // Close popup when clicking outside
+    document.addEventListener('click', function(event) {
+        const widget = document.getElementById('tiamoyo-widget');
+        const popupsOpen = Array.from(document.querySelectorAll('.tiamoyo-popup')).some(popup => popup.style.display === 'block');
+        
+        if (!widget.contains(event.target) && popupsOpen) {
+            closeTiamoyoPopup();
+        }
+    });
+</script>
