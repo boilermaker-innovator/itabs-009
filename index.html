@@ -120,7 +120,7 @@
             justify-content: center;
             width: 60px;
             height: 60px;
-            background: #00b964; /* GoFundMe green */
+            background: #0077b6;
             border-radius: 50%;
             font-size: 32px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
@@ -143,7 +143,7 @@
             width: 24px;
             height: 24px;
             background: white;
-            color: #00b964; /* GoFundMe green */
+            color: #0077b6;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -197,7 +197,7 @@
         .popup-title {
             font-size: 18px;
             font-weight: bold;
-            color: #00b964; /* GoFundMe green */
+            color: #0077b6;
             margin-bottom: 5px;
         }
         
@@ -252,6 +252,135 @@
             margin-top: 2px;
         }
         
+        /* Project Details Popup */
+        .project-icon-large {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .project-description {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .donate-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 0;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.2s;
+            margin-bottom: 15px;
+        }
+        
+        .donate-button:hover {
+            background-color: #43a047;
+        }
+        
+        .visual-element {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        /* Progress visualization for well */
+        .well-progress {
+            height: 150px;
+            width: 60px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .well-water {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 35%;
+            background-color: #48cae4;
+        }
+        
+        .well-depth-marker {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            text-align: right;
+            font-size: 10px;
+            color: #666;
+        }
+        
+        .well-depth-0 {
+            top: 2px;
+        }
+        
+        .well-depth-50 {
+            top: 50%;
+        }
+        
+        .well-depth-100 {
+            bottom: 2px;
+        }
+        
+        /* Tractor visualization */
+        .tractor-container {
+            text-align: center;
+        }
+        
+        .tractor-icon {
+            font-size: 40px;
+        }
+        
+        .fuel-gauge {
+            height: 12px;
+            background-color: #f1f1f1;
+            border-radius: 6px;
+            margin: 10px auto;
+            width: 80%;
+            overflow: hidden;
+        }
+        
+        .fuel-level {
+            height: 100%;
+            width: 40%;
+            background-color: #f39c12;
+        }
+        
+        /* Training visualization */
+        .farmers-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .farmer-icon {
+            font-size: 24px;
+        }
+        
+        /* Support visualization */
+        .support-heart {
+            font-size: 40px;
+            color: #e74c3c;
+            text-align: center;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
         /* Navigation Buttons */
         .popup-footer {
             display: flex;
@@ -260,7 +389,7 @@
         }
         
         .back-button, .close-button {
-            color: #00b964; /* GoFundMe green */
+            color: #0077b6;
             font-size: 14px;
             cursor: pointer;
             padding: 5px;
@@ -268,16 +397,6 @@
         
         .back-button:hover, .close-button:hover {
             text-decoration: underline;
-        }
-        
-        /* Embedded GoFundMe Widget Styles */
-        .gofundme-embed {
-            width: 100%;
-            max-width: 382px; /* Standard GoFundMe width */
-            margin: 0 auto;
-            height: 480px;
-            overflow: hidden;
-            display: none;
         }
         
         /* Mobile Responsiveness */
@@ -296,8 +415,10 @@
             <div class="date">March 10, 2025</div>
         </div>
         
-        <!-- Replace with actual image -->
         <https://i.ibb.co/BKjqxpBV/IMG-2060.jpg>
+        <div class="tractor-image-placeholder">
+            [Tractor Image]
+        </div>
         <p class="image-caption">The Leyland tractor after being pressure cleaned by Michael Hack</p>
         
         <p>Great news from Tanzania! Both tractors that were carefully loaded into the container have successfully arrived in Tanzania on Christmas Day. This marks a significant milestone for our agricultural development efforts in the region and will dramatically improve our ability to support local farmers.</p>
@@ -379,7 +500,7 @@
         </div>
         
         <div class="project-options">
-            <div class="project-option" onclick="openGoFundMe('well')">
+            <div class="project-option" onclick="showProjectDetails('well')">
                 <span class="option-icon">💧</span>
                 <div class="option-details">
                     <div class="option-title">Dig the Well</div>
@@ -387,7 +508,7 @@
                 </div>
             </div>
             
-            <div class="project-option" onclick="openGoFundMe('tractor')">
+            <div class="project-option" onclick="showProjectDetails('tractor')">
                 <span class="option-icon">🚜</span>
                 <div class="option-details">
                     <div class="option-title">Fuel the Tractors</div>
@@ -395,7 +516,7 @@
                 </div>
             </div>
             
-            <div class="project-option" onclick="openGoFundMe('training')">
+            <div class="project-option" onclick="showProjectDetails('training')">
                 <span class="option-icon">👨‍🌾</span>
                 <div class="option-details">
                     <div class="option-title">Train Farmers</div>
@@ -403,7 +524,7 @@
                 </div>
             </div>
             
-            <div class="project-option" onclick="openGoFundMe('support')">
+            <div class="project-option" onclick="showProjectDetails('support')">
                 <span class="option-icon">🙏</span>
                 <div class="option-details">
                     <div class="option-title">General Support</div>
@@ -418,25 +539,123 @@
         </div>
     </div>
     
-    <!-- Embedded GoFundMe Widgets (hidden by default) -->
-    <div id="well-gofundme" class="gofundme-embed tiamoyo-popup">
-        <!-- Replace with your actual GoFundMe widget code for the Well project -->
-        <iframe src="https://www.gofundme.com/f/example-well-campaign/widget/large/" frameborder="0" scrolling="no" width="100%" height="100%"></iframe>
+    <!-- Well Project Details Popup -->
+    <div id="well-details" class="tiamoyo-popup">
+        <div class="popup-header">
+            <div class="project-icon-large">💧</div>
+            <div class="popup-title">Dig the Well</div>
+            <div class="popup-subtitle">Help us reach water 60 feet below</div>
+        </div>
+        
+        <div class="project-description">
+            We need to dig a well on the Agape farm to provide sustainable water access for irrigation and community use. Water is available 60 feet (720 inches) below ground.
+        </div>
+        
+        <div class="visual-element">
+            <div class="well-progress">
+                <div class="well-water"></div>
+                <div class="well-depth-marker well-depth-0">0"</div>
+                <div class="well-depth-marker well-depth-50">360"</div>
+                <div class="well-depth-marker well-depth-100">720"</div>
+            </div>
+            <div style="font-size: 12px; margin-top: 10px; color: #666;">Currently at 35% of our $5,000 goal</div>
+        </div>
+        
+        <button class="donate-button" onclick="goToCampaign('well')">Donate $5 to Dig 1 Inch</button>
+        
+        <div class="popup-footer">
+            <span class="back-button" onclick="backToProjects()">← Back</span>
+            <span class="close-button" onclick="closeTiamoyoPopup()">Close</span>
+        </div>
     </div>
     
-    <div id="tractor-gofundme" class="gofundme-embed tiamoyo-popup">
-        <!-- Replace with your actual GoFundMe widget code for the Tractor project -->
-        <iframe src="https://www.gofundme.com/f/example-tractor-campaign/widget/large/" frameborder="0" scrolling="no" width="100%" height="100%"></iframe>
+    <!-- Tractor Project Details Popup -->
+    <div id="tractor-details" class="tiamoyo-popup">
+        <div class="popup-header">
+            <div class="project-icon-large">🚜</div>
+            <div class="popup-title">Fuel the Tractors</div>
+            <div class="popup-subtitle">Keep our equipment running</div>
+        </div>
+        
+        <div class="project-description">
+            Our tractors are crucial for preparing farmland for local families. We recently shipped two tractors to Tanzania that need fuel and maintenance to operate effectively for the community.
+        </div>
+        
+        <div class="visual-element">
+            <div class="tractor-container">
+                <div class="tractor-icon">🚜</div>
+                <div class="fuel-gauge">
+                    <div class="fuel-level"></div>
+                </div>
+                <div style="font-size: 12px; color: #666;">40% of monthly fuel needs funded</div>
+            </div>
+        </div>
+        
+        <button class="donate-button" onclick="goToCampaign('tractor')">Donate $5 for 1 Hour of Operation</button>
+        
+        <div class="popup-footer">
+            <span class="back-button" onclick="backToProjects()">← Back</span>
+            <span class="close-button" onclick="closeTiamoyoPopup()">Close</span>
+        </div>
     </div>
     
-    <div id="training-gofundme" class="gofundme-embed tiamoyo-popup">
-        <!-- Replace with your actual GoFundMe widget code for the Training project -->
-        <iframe src="https://www.gofundme.com/f/example-training-campaign/widget/large/" frameborder="0" scrolling="no" width="100%" height="100%"></iframe>
+    <!-- Training Project Details Popup -->
+    <div id="training-details" class="tiamoyo-popup">
+        <div class="popup-header">
+            <div class="project-icon-large">👨‍🌾</div>
+            <div class="popup-title">Train Farmers</div>
+            <div class="popup-subtitle">Teaching sustainable agriculture</div>
+        </div>
+        
+        <div class="project-description">
+            We provide training in conservation agriculture techniques to local farmers, helping them increase crop yields while preserving natural resources for future generations.
+        </div>
+        
+        <div class="visual-element">
+            <div class="farmers-row">
+                <div class="farmer-icon">👨‍🌾</div>
+                <div class="farmer-icon">👩‍🌾</div>
+                <div class="farmer-icon">👨‍🌾</div>
+            </div>
+            <div class="farmers-row">
+                <div class="farmer-icon">👩‍🌾</div>
+                <div class="farmer-icon">👨‍🌾</div>
+                <div class="farmer-icon">👩‍🌾</div>
+            </div>
+            <div style="font-size: 12px; color: #666;">68 farmers trained so far</div>
+        </div>
+        
+        <button class="donate-button" onclick="goToCampaign('training')">Donate $5 to Support Training</button>
+        
+        <div class="popup-footer">
+            <span class="back-button" onclick="backToProjects()">← Back</span>
+            <span class="close-button" onclick="closeTiamoyoPopup()">Close</span>
+        </div>
     </div>
     
-    <div id="support-gofundme" class="gofundme-embed tiamoyo-popup">
-        <!-- Replace with your actual GoFundMe widget code for the Support project -->
-        <iframe src="https://www.gofundme.com/f/example-support-campaign/widget/large/" frameborder="0" scrolling="no" width="100%" height="100%"></iframe>
+    <!-- Support Project Details Popup -->
+    <div id="support-details" class="tiamoyo-popup">
+        <div class="popup-header">
+            <div class="project-icon-large">🙏</div>
+            <div class="popup-title">General Support</div>
+            <div class="popup-subtitle">Help where needed most</div>
+        </div>
+        
+        <div class="project-description">
+            Your general support allows us to direct funds to the most urgent needs across all our projects in Tanzania, ensuring we can respond quickly to changing priorities.
+        </div>
+        
+        <div class="visual-element">
+            <div class="support-heart">❤️</div>
+            <div style="font-size: 12px; color: #666;">Supporting communities since 2019</div>
+        </div>
+        
+        <button class="donate-button" onclick="goToCampaign('support')">Donate $5 for General Support</button>
+        
+        <div class="popup-footer">
+            <span class="back-button" onclick="backToProjects()">← Back</span>
+            <span class="close-button" onclick="closeTiamoyoPopup()">Close</span>
+        </div>
     </div>
     
     <script>
@@ -456,25 +675,35 @@
             document.getElementById('popupOverlay').style.display = 'none';
         }
         
-        // Open GoFundMe widget directly
-        function openGoFundMe(projectType) {
+        // Show project details
+        function showProjectDetails(projectType) {
             closeTiamoyoPopup(); // Close all popups first
-            
-            // Option 1: Show embedded GoFundMe widget
-            document.getElementById(`${projectType}-gofundme`).style.display = 'block';
+            document.getElementById(`${projectType}-details`).style.display = 'block';
             document.getElementById('popupOverlay').style.display = 'block';
-            
-            // Option 2: Direct to GoFundMe campaign (uncomment to use this approach instead)
-            /*
+        }
+        
+        // Go back to projects list
+        function backToProjects() {
+            closeTiamoyoPopup(); // Close all popups first
+            document.getElementById('projects-popup').style.display = 'block';
+            document.getElementById('popupOverlay').style.display = 'block';
+        }
+        
+        // Go to GoFundMe campaign
+        function goToCampaign(projectType) {
+            // Replace these URLs with your actual GoFundMe campaign links
             const campaignURLs = {
-                'well': 'https://www.gofundme.com/f/example-well-campaign',
-                'tractor': 'https://www.gofundme.com/f/example-tractor-campaign',
-                'training': 'https://www.gofundme.com/f/example-training-campaign',
-                'support': 'https://www.gofundme.com/f/example-support-campaign'
+                'well': 'https://gofund.me/your-well-campaign',
+                'tractor': 'https://gofund.me/your-tractor-campaign',
+                'training': 'https://gofund.me/your-training-campaign',
+                'support': 'https://gofund.me/your-general-support-campaign'
             };
+            
+            // Open campaign in new tab
             window.open(campaignURLs[projectType], '_blank');
+            
+            // Close popup after redirect
             closeTiamoyoPopup();
-            */
         }
         
         // Close popup when clicking on overlay
